@@ -1,19 +1,36 @@
 # Graficador de señales CSV con GUI
 # Autor: Ramiro Nahuel Belsito - Legajo: 62641 - rabelsito@itba.edu.ar
 
+import os
 try:
     import pandas as pd
 except ImportError:
-    import os
     os.system('pip install pandas')
     import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import tkinter as tk
-from tkinter import filedialog, colorchooser, ttk
-import matplotlib.font_manager as fm
-import json # Para guardar y cargar configuraciones
-import os
+try:
+    import numpy as np
+except ImportError:
+    os.system('pip install numpy')
+    import numpy as np
+try:
+    import matplotlib.pyplot as plt
+    import matplotlib.font_manager as fm
+except ImportError:
+    os.system('pip install matplotlib')
+    import matplotlib.pyplot as plt
+    import matplotlib.font_manager as fm
+try:
+    import tkinter as tk
+    from tkinter import filedialog, colorchooser, ttk
+except ImportError:
+    os.system('pip install tk')
+    import tkinter as tk
+    from tkinter import filedialog, colorchooser, ttk
+try:
+    import json
+except ImportError:
+    os.system('pip install json')
+    import json
 
 def permitir_scroll(root):
     # Contenedor principal con scrollbar
