@@ -1,7 +1,12 @@
 # Graficador de señales CSV con GUI
 # Autor: Ramiro Nahuel Belsito - Legajo: 62641 - rabelsito@itba.edu.ar
 
-import pandas as pd
+try:
+    import pandas as pd
+except ImportError:
+    import os
+    os.system('pip install pandas')
+    import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import tkinter as tk
