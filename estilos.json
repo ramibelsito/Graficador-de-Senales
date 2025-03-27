@@ -1,0 +1,21 @@
+{
+    "Default": {
+        "escala_tiempo": "ms",
+        "fuente_grafico": "DejaVu Serif",
+        "titulo_grafico": "",
+        "xlabel": "Tiempo",
+        "ylabel": "Voltaje (V)",
+        "colores_canales": [
+            "#890000",
+            "#000069"
+        ],
+        "estilos_linea": [
+            "-",
+            "-"
+        ],
+        "nombres_canales": [
+            "Vi",
+            "Vo"
+        ]
+    }
+}
