@@ -227,10 +227,12 @@ def actualizar_estado(texto):
 # Manejo de Estilos
 
 def actualizar_lista_estilos():
-    if os.path.exists("estilos.json"):
-        with open("estilos.json", "r") as f:
+    if os.path.exists("./Graficador-de-Senales/estilos.json"):
+        with open("./Graficador-de-Senales/estilos.json", "r") as f:
             estilos = json.load(f)
             estilos_menu["values"] = list(estilos.keys())  # Cargar nombres de estilos
+    else:
+        print("No se encontró el archivo de estilos.")
 
 def guardar_configuracion():
     config = {
@@ -251,13 +253,17 @@ def guardar_configuracion():
     
     # Cargar configuraciones previas
     estilos = {}
-    if os.path.exists("estilos.json"):
-        with open("estilos.json", "r") as f:
+    if os.path.exists("./Graficador-de-Senales/estilos.json"):
+        with open("./Graficador-de-Senales/estilos.json", "r") as f:
             estilos = json.load(f)
+    else:
+        with open("./Graficador-de-Senales/estilos.json", "w") as f:
+            json.dump({}, f, indent=4)
+
 
     # Guardar el nuevo estilo
     estilos[nombre_estilo] = config
-    with open("estilos.json", "w") as f:
+    with open("./Graficador-de-Senales/estilos.json", "w") as f:
         json.dump(estilos, f, indent=4)
     
     # Actualizar lista de estilos disponibles
@@ -274,8 +280,8 @@ def cargar_estilo():
         actualizar_estado("Selecciona un estilo.")
         return
     
-    if os.path.exists("estilos.json"):
-        with open("estilos.json", "r") as f:
+    if os.path.exists("./Graficador-de-Senales/estilos.json"):
+        with open("./Graficador-de-Senales/estilos.json", "r") as f:
             estilos = json.load(f)
             if estilo_seleccionado in estilos:
                 config = estilos[estilo_seleccionado]
@@ -296,12 +302,12 @@ def borrar_estilo():
         actualizar_estado("Selecciona un estilo.")
         return
     
-    if os.path.exists("estilos.json"):
-        with open("estilos.json", "r") as f:
+    if os.path.exists("./Graficador-de-Senales/estilos.json"):
+        with open("./Graficador-de-Senales/estilos.json", "r") as f:
             estilos = json.load(f)
             if estilo_seleccionado in estilos:
                 del estilos[estilo_seleccionado]
-                with open("estilos.json", "w") as f:
+                with open("./Graficador-de-Senales/estilos.json", "w") as f:
                     json.dump(estilos, f, indent=4)
                 
                 # Actualizar lista de estilos disponibles
@@ -382,8 +388,8 @@ btn_guardar_configuracion = tk.Button(frame_contenedor, text="Guardar Estilo", c
 btn_guardar_configuracion.pack(pady=5)
 # Combobox para seleccionar estilos guardados
 def obtener_primer_estilo():
-    if os.path.exists("estilos.json"):
-        with open("estilos.json", "r") as f:
+    if os.path.exists("./Graficador-de-Senales/estilos.json"):
+        with open("./Graficador-de-Senales/estilos.json", "r") as f:
             estilos = json.load(f)
             if estilos:
                 return list(estilos.keys())[0]
