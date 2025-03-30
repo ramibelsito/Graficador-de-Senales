@@ -36,7 +36,7 @@ except ImportError:
 # Inicializar la ventana de la GUI
 root = tk.Tk()
 root.title("Graficador de Señales CSV")
-root.geometry("1920x1080")
+root.geometry("500x1080")
 
 # Crear el widget Notebook para las pestañas
 notebook = ttk.Notebook(root)
@@ -261,6 +261,10 @@ def cambiar_fuente_bode():
     opciones["fuente"] = fuente_bode_var.get()
     actualizar_estado("Fuente cambiada.", estado_label_bode)
 
+def actualizar_grilla_intermedios():
+        opciones["mostrar_intermedios"] = mostrar_intermedios_var.get()
+        actualizar_estado("Configuración de grilla actualizada.", estado_label_bode)
+
 def graficar_bode():
     global frecuencias, ganancias, fases, amplitudes, amplitud, opciones
     opciones = opciones or {}
@@ -272,6 +276,7 @@ def graficar_bode():
     etiqueta_y_mag = opciones.get("etiqueta_y_mag", "Magnitud [dB]")
     etiqueta_y_fase = opciones.get("etiqueta_y_fase", "Fase [°]")
     grid = opciones.get("grid", True)
+    mostrar_intermedios = opciones.get("mostrar_intermedios", False)
     tamaño_fuente = opciones.get("tamaño_fuente", 12)
     alpha = opciones.get("alpha", 0.8)
     titulo_general = opciones.get("titulo_general", "Diagrama de Bode Personalizado")
@@ -286,7 +291,9 @@ def graficar_bode():
     ax_mag.set_title(titulo_mag, fontsize=tamaño_fuente)
     ax_mag.set_xlabel(etiqueta_x, fontsize=tamaño_fuente)
     ax_mag.set_ylabel(etiqueta_y_mag, fontsize=tamaño_fuente)
-    ax_mag.grid(grid)
+    ax_mag.grid(grid, which='major')
+    if mostrar_intermedios:
+        ax_mag.grid(grid, which='minor', linestyle=':', linewidth=0.5)
     ax_mag.set_facecolor(color_fondo)
     
     # Ventana para el gráfico de Fase
@@ -298,7 +305,9 @@ def graficar_bode():
     ax_fase.set_title(titulo_fase, fontsize=tamaño_fuente)
     ax_fase.set_xlabel(etiqueta_x, fontsize=tamaño_fuente)
     ax_fase.set_ylabel(etiqueta_y_fase, fontsize=tamaño_fuente)
-    ax_fase.grid(grid)
+    ax_fase.grid(grid, which='major')
+    if mostrar_intermedios:
+        ax_fase.grid(grid, which='minor', linestyle=':', linewidth=0.5)
     ax_fase.set_facecolor(color_fondo)
     
     # Mostrar ambas ventanas
@@ -600,6 +609,7 @@ def inicializar_gui_bode():
     global titulo_general_bode_entry, etiqueta_x_bode_entry, etiqueta_y_mag_bode_entry
     global etiqueta_y_fase_bode_entry, tamaño_fuente_bode_entry, alpha_bode_entry
     global fuente_bode_var, fuente_bode_menu, nombre_estilo_bode_entry, estilos_bode_var, estilos_bode_menu
+    global mostrar_intermedios_var
 
     global estado_label_bode
     # Agregar boton cargar archivo
@@ -679,9 +689,15 @@ def inicializar_gui_bode():
     fuente_bode_menu.pack()
     btn_fuente_bode = tk.Button(frame_bode, text="Cambiar Fuente", command=cambiar_fuente_bode)
     btn_fuente_bode.pack(pady=5)
+    # Configuracion de Grilla
+    mostrar_intermedios_var = tk.BooleanVar(value=False)
+    checkbox_intermedios = tk.Checkbutton(frame_bode, text="Mostrar puntos intermedios en la grilla", variable=mostrar_intermedios_var)
+    checkbox_intermedios = tk.Checkbutton(frame_bode, text="Mostrar puntos intermedios en la grilla", variable=mostrar_intermedios_var)
+    checkbox_intermedios.pack(pady=5)
+    btn_actualizar_grilla = tk.Button(frame_bode, text="Actualizar Grilla", command=actualizar_grilla_intermedios)
+    btn_actualizar_grilla.pack(pady=5)
+
     # GUI para estilos de Bode
-    nombre_estilo_bode_entry = tk.Entry(frame_bode)
-    nombre_estilo_bode_entry.pack()
     nombre_estilo_bode_entry = tk.Entry(frame_bode)
     nombre_estilo_bode_entry.pack()
     btn_guardar_configuracion_bode = tk.Button(frame_bode, text="Guardar Estilo", command=guardar_configuracion_bode)
@@ -701,10 +717,10 @@ def inicializar_gui_bode():
     btn_graficar = tk.Button(frame_bode, text="Graficar Bode", command=graficar_bode)
     btn_graficar.pack(pady=10)
     btn_graficar.config(bg='green', fg='white')
-    # Agregar label de estado
+    # Agregar label de estado solo en el apartado de Bode
     estado_label_bode = tk.Label(frame_bode)
-    estado_label_bode.pack()
     estado_label_bode.config(text="Seleccione un archivo CSV.")
+    estado_label_bode.pack(side="bottom", pady=5)
 
 # Llamar a la función para inicializar la GUI del graficador
 inicializar_gui_graficador()

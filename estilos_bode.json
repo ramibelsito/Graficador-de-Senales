@@ -9,7 +9,7 @@
         "etiqueta_y_mag": "Magnitud [dB]",
         "etiqueta_y_fase": "Fase [\u00b0]",
         "tama\u00f1o_fuente": 12,
-        "alpha": 0.8,
+        "alpha": 1.0,
         "color_fondo": "#ffffff",
         "fuente": "DejaVu Serif"
     }
